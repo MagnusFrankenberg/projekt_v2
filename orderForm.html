@@ -12,7 +12,7 @@
 <body>
     <div class="container">
 
-
+<!--navbar -->
         <nav class="navbar navbar-expand-md">
             <div class="container">
               <a href="#" class="navbar-brand">MyStore</a>
@@ -37,10 +37,13 @@
           </nav>
 
 
+          <!--navbar -->
           <h1 class="page_header">Checkout</h1>
 
         <div class="row row-cols-1 row-cols-md-2 gy-3 gx-5">
 
+
+          <!--Shopping-Cart - Your products and Total -->
         <div class="col p-3 d-flex flex-column" id="yourProducts">
             <h3 class="mt-2">Your Products</h3>
             <div id="cart" class="flex-fill">
@@ -48,10 +51,8 @@
             </div>
          
             <div id="cart-footer">
-
               <h4 id="totalPrice">Total Price:</h4>
               <button class="btn btn-outline-danger" id="btn_clearCart">Clear Cart</button>
-
             </div>
            
         </div>
@@ -140,7 +141,7 @@ function retrieveCart(){
 
 }
 
-//eventhanterare för 
+//eventhanterare för clearCart button
 document.getElementById("btn_clearCart").addEventListener("click", () => {
   localStorage.removeItem('shoppingCart');
   document.getElementById('totalPrice').innerHTML = `Total Price: €00,00`;
