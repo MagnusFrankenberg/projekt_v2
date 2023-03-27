@@ -123,6 +123,48 @@
 
 
 
+
+
+        //skapa card-text och lägg till card body
+        let cardText = document.createElement("div");
+        cardText.className = "card-text collapse";
+        cardText.innerHTML = `${e.description}`;
+        cardBody.append(cardText);
+
+        //skapa card-footer och lägg till card
+        let cardFooter = document.createElement("div");
+        cardFooter.className = "card-footer p-2";
+        card.append(cardFooter);
+
+        //skapa d-flex och lägg till cardFooter
+        let dFlex = document.createElement("div");
+        dFlex.className = "d-flex justify-content-between align-items-center";
+        cardFooter.append(dFlex);
+
+        //skapa pricetag och lägg till d-flex
+        let price = document.createElement("h4");
+        price.className = "price pt-2";
+        price.innerHTML =  `€${e.price}`;
+        dFlex.append(price);
+
+        //skapa button och lägg till d-flex
+        let btn = document.createElement("a");
+        btn.className = "btn btn-outline-success p-2";
+        btn.setAttribute('id',`addCart_${e.id}`);
+        btn.href = "#";
+        btn.innerHTML = "Add to cart";
+        btn.addEventListener('click', (event)=>{
+          addToCart(e);
+        });
+        dFlex.append(btn);
+
+
+        //skapa rating och lägg till cardfooter
+        let rating = document.createElement("p");
+        rating.className = "rating";
+        rating.innerHTML = `Rating: ${e.rating.rate} (${e.rating.count})`;
+        cardFooter.append(rating);
+
 ///Modal///
 
         //Skapa modal  https://getbootstrap.com/docs/4.0/components/modal/
@@ -189,49 +231,7 @@
         linkModal.setAttribute('data-bs-target', `#modal_${e.id}`);
         linkModal.innerHTML = "Read more...";
         cardBody.append(linkModal);
-        console.log(linkModal);
-
-        //skapa card-text och lägg till card body
-        let cardText = document.createElement("div");
-        cardText.className = "card-text collapse";
-        cardText.innerHTML = `${e.description}`;
-        cardBody.append(cardText);
-
-        //skapa card-footer och lägg till card
-        let cardFooter = document.createElement("div");
-        cardFooter.className = "card-footer p-2";
-        card.append(cardFooter);
-
-        //skapa d-flex och lägg till cardFooter
-        let dFlex = document.createElement("div");
-        dFlex.className = "d-flex justify-content-between align-items-center";
-        cardFooter.append(dFlex);
-
-        //skapa pricetag och lägg till d-flex
-        let price = document.createElement("h4");
-        price.className = "price pt-2";
-        price.innerHTML =  `€${e.price}`;
-        dFlex.append(price);
-
-        //skapa button och lägg till d-flex
-        let btn = document.createElement("a");
-        btn.className = "btn btn-outline-success p-2";
-        btn.setAttribute('id',`modal_${e.id}`);
-        btn.href = "#";
-        btn.innerHTML = "Add to cart";
-        btn.addEventListener('click', (event)=>{
-          addToCart(e);
-        });
-        dFlex.append(btn);
-
-
-        //skapa rating och lägg till cardfooter
-        let rating = document.createElement("p");
-        rating.className = "rating";
-        rating.innerHTML = `Rating: ${e.rating.rate} (${e.rating.count})`;
-        cardFooter.append(rating);
-
-
+       // console.log(linkModal);
         
 
       
