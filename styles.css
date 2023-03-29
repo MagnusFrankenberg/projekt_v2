@@ -219,10 +219,41 @@
     padding-top: 0.5rem;
     margin-top: 1rem;
     border-top: 1px dotted;
-    
- 
 }
 
 #btn_clearCart{
     width: 7rem;
+ }
+
+
+ /**** OrderConfirmation ****/
+
+.conf_container{
+    
+}
+.conf_header{
+    color: rgb(72, 70, 70);
+}
+
+ .conf_orderItems{
+    width: 80%;
+ }
+
+ .conf_orderTotal{
+    width: 79%;
+    padding: 1rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+ }
+
+ .conf_deliveryAddress{
+    margin-top: 2rem;
+    width: 79%;
+    padding: 1rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: rgb(83, 81, 81);
+ }
+ .recipient_text{
+
  }
