@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OrderForm</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="styles.css">
@@ -15,7 +16,7 @@
 <!--navbar -->
         <nav class="navbar navbar-expand-md">
             <div class="container">
-              <a href="#" class="navbar-brand">MyStore</a>
+              <a href="./index.html" class="navbar-brand">MyStore</a>
               <button class="navbar-toggler" data-bs-toggle="collapse"
               data-bs-target="#nav">
               <div class="navbar-toggler-icon"></div>
@@ -23,13 +24,15 @@
               <div class="collapse navbar-collapse" id="nav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                      <a href="./assortment.html" class="nav-link active">Products</a>
+                      <a href="./index.html" class="nav-link active">Products</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#" class="nav-link">Contact</a>
                     </li>
                   <li class="nav-item">
-                    <a href="./orderForm.html" class="nav-link active">Checkout</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">Contact</a>
+                      <a href="./orderForm.html" class="nav-link active">Checkout  
+                        <img id="cartImage" src="cart2.png" alt="cartimage">
+                      </a>
                   </li>
                 </ul>
               </div>
@@ -61,45 +64,50 @@
 
 
            <!--Your Information Form-->
-        <form>
+        <form class="checkoutForm">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" id="name" placeholder="Firstname Lastname">
-            
+              <input type="text" class="form-control" id="name" placeholder="Firstname Lastname" onkeyup="validateName()">
+            <div class="error" id="name-error"></div>
             </div>
             
             <div class="form-group">
               <label for="phoneNumber">Phone Number</label>
-              <input type="text" class="form-control" id="phoneNumber" placeholder="+46 XX XX XX XXX">
-             
+              <input type="text" class="form-control" id="phoneNumber" placeholder="+46 XX XX XX XXX" onkeyup="validatePhone()">
+              <div class="error" id="phone-error"></div>
             </div>
 
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" class="form-control" id="email" placeholder="email@xxx.com">
-               
+                <input type="email" class="form-control" id="email" placeholder="email@xxx.com" onkeyup="validateEmail()">
+                <div class="error" id="email-error"></div>
               </div>
 
               <div class="form-group">
                 <label for="adress">Address</label>
-                <input type="text" class="form-control" id="adress" placeholder="5 abc street">
+                <input type="text" class="form-control" id="address" placeholder="5 abc street" onkeyup="validateAddress()">
+                <div class="error" id="address-error"></div>
               </div>
-
+             
               <div class="form-group">
                 <label for="postalCode">Postal Code</label>
-                <input type="text" class="form-control" id="postalCode" placeholder="XXX XX">
+                <input type="text" class="form-control" id="postalCode" placeholder="XXX XX" onkeyup="validatePostalcode()">
+                <div class="error" id="postalcode-error"></div>
               </div>
 
               <div class="form-group">
                 <label for="city">City</label>
-                <input type="text" class="form-control" id="city" placeholder="CityName">
+                <input type="text" class="form-control" id="city" placeholder="CityName" onkeyup="validateCity()">
+                <div class="error" id="city-error"></div>
               </div>
           
-            <div class="form-group form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-success">Submit order & Pay</button>
+            
+           <button class="btn btn-success" id='submitBtn'>Submit order & Pay</button>
+           <!-- <button type="submit" class="btn btn-success">Submit order & Pay</button>-->
+
+           
+              <div id="submit-error"></div>
+           
           </form>
 
 
@@ -108,6 +116,138 @@
     </div>
 
 <script>
+
+  let submitBtn = document.getElementById('submitBtn');
+  submitBtn.addEventListener('click', (event)=>{
+    validate_Submit(event);
+  });
+
+//variables for error-divs
+  let nameError = document.getElementById('name-error');
+  let phoneError = document.getElementById('phone-error');
+  let emailError = document.getElementById('email-error');
+  let addressError = document.getElementById('address-error');
+  let postalCodeError = document.getElementById('postalcode-error');
+  let cityError = document.getElementById('city-error');
+  let submitError = document.getElementById('submit-error');
+
+  //Valid input as Regex
+const validRegexMail = /[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}/; 
+const validRegexPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s/0-9]*$/g; 
+const validRegexStreet = /^[A-Za-z0-9-åäöÅÄÖ _]*[A-Za-z0-9[A-Za-z0-9 _]*$/;
+const validRegexCity = /^[a-zA-Z\s-åäöÅÄÖ]*$/;
+const validRegexPostal =/^[0-9]{3}\s{1}[0-9]{2}$/;
+const validRegexName = /^[a-zA-Z-åäöÅÄÖ. ]+\s{1}[a-zA-Z-åäöÅÄÖ. ]+$/; 
+
+
+function validateName(){
+  let name = document.getElementById('name').value;
+  if(name.length < 2 || name.length > 50){
+    nameError.innerHTML = 'Name is not valid';
+    return false;
+  }
+  if(!name.match(validRegexName)){
+    nameError.innerHTML = 'Full name is required';
+    return false;
+  }
+  nameError.innerHTML = '<p class="validMessage">Valid</p>';
+  return true;
+}
+
+function validatePhone(){
+  let phoneNumber = document.getElementById('phoneNumber').value;
+  if(phoneNumber.length < 6 || phoneNumber.length > 50){
+    phoneError.innerHTML = 'Phonenumber is not valid';
+    return false;
+  }
+  if(!phoneNumber.match(validRegexPhone)){
+    phoneError.innerHTML = 'Phonenumber is not valid';
+    return false;
+  }
+  phoneError.innerHTML = '<p class="validMessage">Valid</p>';
+  return true;
+}
+
+function validateEmail(){
+  let email = document.getElementById('email').value;
+  if(email.length < 6 || email.length > 50){
+    emailError.innerHTML = 'Email is not valid';
+    return false;
+  }
+  if(!email.match(validRegexMail)){
+    emailError.innerHTML = 'Email is not valid';
+    return false;
+  }
+  emailError.innerHTML = '<p class="validMessage">Valid</p>';
+  return true;
+}
+
+function validateAddress(){
+  let address = document.getElementById('address').value;
+  if(address.length < 4 || address.length > 50){
+    addressError.innerHTML = 'Address is not valid';
+    return false;
+  }
+  if(!address.match(validRegexStreet)){
+    addressError.innerHTML = 'Address is not valid';
+    return false;
+  }
+  addressError.innerHTML = '<p class="validMessage">Valid</p>';
+  return true;
+}
+
+
+function validatePostalcode(){
+  let postalCode = document.getElementById('postalCode').value;
+  if(!postalCode.match(validRegexPostal)){
+    postalCodeError.innerHTML = 'Postal Code is not valid';
+    return false;
+  }
+  postalCodeError.innerHTML = '<p class="validMessage">Valid</p>';
+  return true;
+}
+
+function validateCity(){
+  let city = document.getElementById('city').value;
+  if(city.length < 2 || city.length > 50){
+    cityError.innerHTML = 'city is not valid';
+    return false;
+  }
+  if(!city.match(validRegexCity)){
+    cityError.innerHTML = 'city is not valid';
+    return false;
+  }
+  cityError.innerHTML = '<p class="validMessage">Valid</p>';
+  return true;
+}
+
+function validate_Submit(e){
+  e.preventDefault();
+  if(!validateName() || !validatePhone() || !validateEmail || !validateAddress() || !validatePostalcode() || !validateCity()){
+  submitError.style.display = 'block';
+  submitError.innerHTML = 'There are errors in one or more fields. Resolve before submit';
+  setTimeout(function(){submitError.style.display = 'none';}, 3000);
+  }
+  else{
+        sessionStorage.setItem('name', name);
+        sessionStorage.setItem('email', email);
+        sessionStorage.setItem('phoneNumber', phoneNumber);
+        sessionStorage.setItem('address', address);
+        sessionStorage.setItem('postalCode', postalCode);
+        sessionStorage.setItem('city', city);
+       orderConfirm()  ;
+  }
+}
+
+
+function orderConfirm(){
+  window.location.href = "orderConfirmation.html";
+};
+
+
+
+
+
 
 
   //funktion för att visa shoppingcart 
@@ -120,26 +260,124 @@ function retrieveCart(){
   });
 
   totalPrice = totalPrice.toFixed(2);
-  console.log(totalPrice);
 
   document.getElementById('totalPrice').innerHTML = `Total Price: €${totalPrice}`;
 
 
   const cartDiv = document.getElementById('cart');
-  cartDiv.innerHTML ="";
+  
+
 
   if(shoppingCart.length){
-  shoppingCart.forEach(e=>{
+    const uniqueItems = [...new Map(shoppingCart.map((item)=>[(item).title,(item)])).values()];
 
-    let item = document.createElement('div');
-    item.innerHTML = `${e.title}: €${e.price}`;
-    cartDiv.appendChild(item);
+    uniqueItems.forEach((item)=>{
+    let itemCount = shoppingCart.filter(e=>e.title==(item).title).length;
 
-  })
+    let cartItem = document.createElement('div');
+    cartItem.className = 'cartItem';
+    cartItem.id = `cartItemId_${item.id}`;
+    cartDiv.appendChild(cartItem);
+
+    let box_left = document.createElement('div');
+    box_left.className = 'box_left';
+    cartItem.appendChild(box_left);
+
+    let cartImage = document.createElement('img');
+    cartImage.className = 'cartImage';
+    cartImage.src = `${(item).image}`;
+    box_left.append(cartImage);
+
+    let box_title = document.createElement('div');
+    box_title.className = 'box_title';
+    cartItem.appendChild(box_title);
+
+    let iTitle = document.createElement('div');
+    iTitle.className = 'iTitle';
+    iTitle.innerHTML = `${(item).title}`;
+    box_title.appendChild(iTitle);
+
+    let box_price = document.createElement('div');
+    box_price.className = 'box_price d-flex flex-row';
+    cartItem.appendChild(box_price);
+
+    let iQty = document.createElement('p');
+    iQty.className = 'iQty';
+    iQty.innerHTML = 'Qty:'
+    box_price.appendChild(iQty);
+
+    let btnBox = document.createElement('div');
+    btnBox.className = "btnBox border-2 border-secondary border rounded-pill";
+    box_price.appendChild(btnBox);
+   
+    let addBtn = document.createElement('button');
+    addBtn.className = 'addBtn btn';
+    addBtn.id = `addId_${item.id}`;
+    addBtn.innerHTML = '+';
+    addBtn.addEventListener('click', (event)=>{
+         addToCartAtCheckout((item));
+    });
+    btnBox.appendChild(addBtn);
+
+    let iCount = document.createElement('div');
+    iCount.className = 'icount';
+    iCount.setAttribute('id',`iCountId_${(item).id}`)
+    iCount.innerHTML = `${itemCount}`;
+    btnBox.appendChild(iCount);
+
+    let removeBtn = document.createElement('button');
+    removeBtn.className = 'removeBtn btn'
+    removeBtn.id = `removeId_${item.id}`;
+    removeBtn.innerHTML = '-';
+    removeBtn.addEventListener('click', (event)=>{
+      removeFromCartAtCheckout((item));
+    });
+    btnBox.appendChild(removeBtn);
+
+    let iPrice = document.createElement('div');
+    iPrice.className = 'iPrice';
+    iPrice.innerHTML = `€${(item).price.toFixed(2)}`;
+    box_price.appendChild(iPrice);
+
+    let iPriceTot = document.createElement('div');
+    iPriceTot.className = 'iPriceTot flex-fill';
+    iPriceTot.innerHTML = `€${((item).price * itemCount).toFixed(2)}`;
+    box_price.appendChild(iPriceTot);
+
+    });
+  }
+}
+
+
+function addToCartAtCheckout(item){
+ //Get current cart from localstorage or create a new one if not exists:
+ let shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+ 
+    let newItem = {
+      title: item.title,
+      price: item.price,
+      id: item.id,
+      image: item.image,
+    };
+    shoppingCart.push(newItem);
+    localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+
+   location.reload();//försök hitta partial update metod
+}
+
+function removeFromCartAtCheckout(item){
+  let shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+
+  let firstItemIndex = shoppingCart.map(e=>e.id==item.id).indexOf(true);
+  shoppingCart.splice(firstItemIndex,1);
+
+  localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+
+  location.reload();  //försök hitta partial update metod
+
+}
   
-}
 
-}
 
 //eventhanterare för clearCart button
 document.getElementById("btn_clearCart").addEventListener("click", () => {
