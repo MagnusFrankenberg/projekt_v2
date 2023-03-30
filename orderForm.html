@@ -270,8 +270,14 @@ function retrieveCart(){
 
 
   if(shoppingCart.length){
+    //skapa unika items
     const uniqueItems = [...new Map(shoppingCart.map((item)=>[(item).title,(item)])).values()];
+    console.log(uniqueItems);
 
+    //sortera baserat på id för att cartItems ej ska ändra ordning vid +/-tryck
+    uniqueItems.sort((a,b) => (a.id > b.id) ? 1: ((b.id>a.id) ? -1 : 0));
+
+    //För varje unik item, skapa upp en cartitem =>
     uniqueItems.forEach((item)=>{
     let itemCount = shoppingCart.filter(e=>e.title==(item).title).length;
 
@@ -350,6 +356,7 @@ function retrieveCart(){
 }
 
 
+// Öka antalet av en item i Cart:
 function addToCartAtCheckout(item){
  //Get current cart from localstorage or create a new one if not exists:
  let shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
@@ -366,6 +373,8 @@ function addToCartAtCheckout(item){
    location.reload();//försök hitta partial update metod
 }
 
+
+// Minska antalet av en item i Cart:
 function removeFromCartAtCheckout(item){
   let shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
 
