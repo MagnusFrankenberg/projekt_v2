@@ -305,4 +305,30 @@
 }
 
 
- 
+ /**** Contact ****/
+
+ .contact_container{
+    color: rgb(94, 92, 92);
+}
+
+.contact_details{
+    width: 80%;
+    margin-top: 1rem;
+}
+
+.contact{
+    padding: 0.5rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+.contact_text{
+    font-size: medium;
+}
+
+.contact_map{
+    width: 80%;
+    padding: 0.3rem;
+    margin: 3rem;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
