@@ -148,6 +148,7 @@
 .box_title{
     width: 100%;
     height: 100%;
+    display: flex;
     
  /*   border: solid 1px grey;*/
 }
@@ -155,6 +156,24 @@
 .iTitle{
     font-weight: 500;
 }
+
+.removeItemBox{
+    display: flex;
+    justify-content: right;
+    text-align: center;
+}
+
+.removeItemBtn{
+    padding: 0;
+    width: 1.3rem;
+    height: 1.3rem;
+    font-weight: 700;
+    color: brown;
+    border: 1px solid;
+    line-height: 1rem;
+
+}
+
 
 .box_price{
    
@@ -176,6 +195,7 @@
     padding: 0rem 0.3rem;
     height: 1.5rem;
     font-weight: 700;
+    line-height: 1rem;
    
 }
 
@@ -194,7 +214,7 @@
     
 }
 .removeBtn{
-   color: red;
+   color:brown;
    
 }
 
@@ -229,11 +249,18 @@
  /**** OrderConfirmation ****/
 
 .conf_container{
-    
+    color: rgb(94, 92, 92);
 }
-.conf_header{
-    color: rgb(72, 70, 70);
+
+.conf_container .cartItem{
+    display: grid;
+    grid-template: 60fr 40fr / 15fr 85fr;
+    border: solid 1px grey;
+    margin-bottom: 0.4rem;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
 }
+
 
  .conf_orderItems{
     width: 80%;
@@ -242,18 +269,40 @@
  .conf_orderTotal{
     width: 79%;
     padding: 1rem;
+    margin-top: 1rem;
     border: 1px solid gray;
     border-radius: 5px;
+    font-weight: 600;
+    font-size: 1.2rem;
+ }
+
+ .orderTotal{
+    margin-right: 1.6rem;
+    font-weight: 600;
+ }
+
+ .conf_recipient{
+    width: 79%;
+    min-height: 10rem;
+    font-size: 2rem;
+    margin-top: 3rem;
  }
 
  .conf_deliveryAddress{
-    margin-top: 2rem;
-    width: 79%;
     padding: 1rem;
     border: 1px solid gray;
     border-radius: 5px;
-    color: rgb(83, 81, 81);
  }
- .recipient_text{
 
- }
+.contactInfo{
+    padding: 1rem;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.recipient_text{
+    font-size: 1rem;
+}
+
+
+ 

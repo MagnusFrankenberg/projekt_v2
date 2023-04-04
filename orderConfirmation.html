@@ -33,29 +33,35 @@
         </div>
       </nav>
 
-      <div class="conf_container d-flex flex-column align-items-center">
+      <div class="conf_container d-flex flex-column align-items-center p-3">
 
 <div class="conf_header text-center mt-4">
     <h1>Thank you for your order,</h1>
-    <h2>Review your order information below</h2>
+    <h3>Review your order information below</h3>
 </div>
-<div class="conf_orderItems m-1 p-2">
+<div class="conf_orderItems p-2">
 
 </div>
-<div class="conf_orderTotal">
-    <h4 id="orderTotal">Order Total:</h4>
+<div class="conf_orderTotal d-flex flex-fill">
+  <div id="orderTotalText">Order Total:</div>
+    <div id="orderTotal" class="orderTotal d-flex flex-fill justify-content-end"></div>
   </div>
-<div class="conf_deliveryAddress">
-    <h4 class="recipient_header">Recipient:</h4>
-    <h5 class="recipient_text" id="name"></h5>
-    <h5 class="recipient_text" id="address"></h5>
-    <h5 class="recipient_text" id="postalCode"></h5>
-    <h5 class="recipient_text" id="city"></h5>
-    <br>
-    <div class="contactInfo border-2 border-top">
-        <h5 id="phoneNumber"></h5>
-        <h5 id="email"></h5>
-    </div>
+
+
+  <div class="conf_recipient row row-cols-1 row-cols-md-2">
+    <div class="conf_deliveryAddress col">
+        <h4 class="recipient_header">Delivery to:</h4>
+        <h5 class="recipient_text" id="name"></h5>
+        <h5 class="recipient_text" id="address"></h5>
+        <h5 class="recipient_text" id="postalCode"></h5>
+        <h5 class="recipient_text" id="city"></h5>
+      </div>
+
+        <div class="contactInfo col">
+          <h4 class="recipient_header">Your phone & email:</h4>
+            <h5 class="recipient_text" id="phoneNumber"></h5>
+            <h5 class="recipient_text" id="email"></h5>
+        </div>
   </div>
 
 
@@ -89,7 +95,7 @@ function renderOrderItems(){
   });
 
   orderTotal = orderTotal.toFixed(2);
-  document.getElementById('orderTotal').innerHTML = `Order Total: €${orderTotal}`;
+  document.getElementById('orderTotal').innerHTML = `€${orderTotal}`;
 
 
   const orderItems = document.querySelector('.conf_orderItems');
